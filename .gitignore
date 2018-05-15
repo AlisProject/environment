@@ -1,0 +1,4 @@
+.idea
+.envrc
+!.envrc.sample
+template.yaml
