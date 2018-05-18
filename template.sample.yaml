@@ -1,0 +1,304 @@
+AWSTemplateFormatVersion: 2010-09-09
+
+Resources:
+  #
+  # プライベートチェーン
+  #
+  ParityNodesAMI:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}ParityNodesAMI"
+      Description: |
+        Parity PoAプライベートチェーンを構築するEC2インスタンスに使用するAMIのID
+      Type: String
+      Value: ami-b026xxxx
+  BastionAllocationId:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}BastionAllocationId"
+      Description: |
+        踏み台サーバTのEIPのAllocation ID
+      Type: String
+      Value: eipalloc-74e9xxxx
+    DependsOn: ParityNodesAMI
+  NatAllocationId:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}NatAllocationId"
+      Description: |
+        NATのEIPのAllocation ID
+      Type: String
+      Value: eipalloc-0de8xxxx
+    DependsOn: ParityNodesAMI
+  EC2DeleteOnTermination:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}EC2DeleteOnTermination"
+      Description: |
+        生成したEC2インスタンスを削除する時にEBSも同時に削除するか否か
+        本番環境ではfalseであるべき。
+      Type: String
+      Value: "true"
+    DependsOn: ParityNodesAMI
+  AccountsNewRequestPassword:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}AccountsNewRequestPassword"
+      Description: |
+        アカウント新規作成時のRPCリクエストで使用する
+        式作成されるアカウントのパスワードとして設定される
+      Type: String
+      Value: password
+    DependsOn: ParityNodesAMI
+  ParityNodesInstanceType:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}ParityNodesInstanceType"
+      Description: |
+        Parity PoAのインスタンスのタイプ
+      Type: String
+      Value: t2.medium
+    DependsOn: ParityNodesAMI
+  ParityNodesVolumeSize:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}ParityNodesVolumeSize"
+      Description: |
+        Parity PoAのインスタンスの容量(GB)
+      Type: String
+      Value: "8"
+    DependsOn: ParityNodesAMI
+  PrivateChainMainSigner:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}PrivateChainMainSigner"
+      Description: |
+        プライベートチェーンへの操作を主に担当するSignerのアドレス
+      Type: String
+      Value: "0x7ad8f90cfa071c8420e3f09fe0e413d0c47502e6"
+    DependsOn: ParityNodesAMI
+  PrivateChainAlisTokenAddress:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}PrivateChainAlisTokenAddress"
+      Description: |
+        プライベートチェーンにデプロイされたALISトークンのアドレス
+      Type: String
+      Value: "0xbbfce3c05aef921b35c7264fff21bb08f490a821"
+    DependsOn: ParityNodesAMI
+  PrivateChainOperationUrl:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}PrivateChainOperationUrl"
+      Description: |
+        プライベートチェーン操作用URL
+      Type: String
+      Value: http://example:8545
+    DependsOn: ParityNodesAMI
+  PrivateChainAwsAccessKey:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}PrivateChainAwsAccessKey"
+      Description: |
+        プライベートチェーンの機能を利用する場合に必要な情報
+          - see: https://github.com/AlisProject/private-chain
+        具体的には、プライベートチェーンのAPI GatewayがIAM認証で保護されているため
+        その権限を与えられたIAMユーザの認証情報。
+        なお、この権限にはIAMロールだけでなくIAMユーザが必須である。
+        このIAMユーザの作成自体はCloud formationで自動化されていないので注意。
+      Type: String
+      Value: AKIAIVGQILXXXXXXXXX
+    DependsOn: ParityNodesAMI
+  PrivateChainAwsSecretAccessKey:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}PrivateChainAwsSecretAccessKey"
+      Description: |
+        プライベートチェーンの機能を利用する場合に必要な情報
+          - see: https://github.com/AlisProject/private-chain
+        具体的には、プライベートチェーンのAPI GatewayがIAM認証で保護されているため
+        その権限を与えられたIAMユーザの認証情報。
+        なお、この権限にはIAMロールだけでなくIAMユーザが必須である。
+        このIAMユーザの作成自体はCloud formationで自動化されていないので注意。
+      Type: String
+      Value: ZCFj5dn0k031G/hMfiAgxxxxxxxxxxxxxxxxxxxx
+    DependsOn: PrivateChainAwsAccessKey
+  PrivateChainExecuteApiHost:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}PrivateChainExecuteApiHost"
+      Description: |
+        プライベートチェーンの機能を利用する場合に必要な情報
+          - see: https://github.com/AlisProject/private-chain
+        具体的には、プライベートチェーンのAPI GatewayがIAM認証で保護されているため
+        その権限を与えられたIAMユーザの認証情報。
+        なお、この権限にはIAMロールだけでなくIAMユーザが必須である。
+        このIAMユーザの作成自体はCloud formationで自動化されていないので注意。
+      Type: String
+      Value: xxxxxxxxxx.execute-api.ap-northeast-1.amazonaws.com
+    DependsOn: PrivateChainAwsAccessKey
+
+  #
+  # Server less
+  #
+  AlisAppDomain:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}AlisAppDomain"
+      Description: |
+        構築するALISアプリケーション環境で使用するドメイン
+      Type: String
+      Value: alis.to
+  BetaModeFlag:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}BetaModeFlag"
+      Description: |
+        β版登録ユーザーか否かの判定に使用する。
+        TODO: β版が完了した場合、オープンβとなった場合は除却
+      Type: String
+      Value: "0"
+    DependsOn: AlisAppDomain
+  SaltForArticleId:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}SaltForArticleId"
+      Description: |
+        記事IDを生成するためのsalt
+      Type: String
+      Value: "YOURSALTHERE"
+    DependsOn: AlisAppDomain
+
+  #
+  # Cognito
+  #
+  CognitoUserPoolId:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}CognitoUserPoolId"
+      Type: String
+      Value: ap-northeast-1_xxxxxxxxx
+  CognitoUserPoolArn:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}CognitoUserPoolArn"
+      Description: |
+        API GatewayでAPIにCognito認証を付加するために使用している
+        一度、Cognitoを作成したあとでこの値をSSMへ設定する必要がある
+      Type: String
+      Value: arn:aws:cognito-idp:ap-northeast-1:090123456789:userpool/ap-northeast-1_xxxxxxxxx
+    DependsOn: CognitoUserPoolId
+
+  #
+  # DB Tables
+  #
+  ArticleAlisTokenTableName:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}ArticleAlisTokenTableName"
+      Type: String
+      Value: xxxxxdatabase-ArticleAlisToken-1JX1R6GSYY7Z3
+  ArticleContentTableName:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}ArticleContentTableName"
+      Type: String
+      Value: xxxxxdatabase-ArticleContent-LK4W9VQPYFV6
+    DependsOn: ArticleAlisTokenTableName
+  ArticleContentEditTableName:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}ArticleContentEditTableName"
+      Type: String
+      Value: xxxxxdatabase-ArticleContentEdit-VAL74ANFPZ3X
+    DependsOn: ArticleAlisTokenTableName
+  ArticleEvaluatedManageTableName:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}ArticleEvaluatedManageTableName"
+      Type: String
+      Value: xxxxxdatabase-ArticleEvaluatedManage-FXS4PDYWVOL
+    DependsOn: ArticleAlisTokenTableName
+  ArticleFraudUserTableName:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}ArticleFraudUserTableName"
+      Type: String
+      Value: xxxxxdatabase-ArticleFraudUser-14BEI5E0ZQ24W
+    DependsOn: ArticleAlisTokenTableName
+  ArticleHistoryTableName:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}ArticleHistoryTableName"
+      Type: String
+      Value: xxxxxdatabase-ArticleHistory-W241YOWJS8G6
+    DependsOn: ArticleAlisTokenTableName
+  ArticleInfoTableName:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}ArticleInfoTableName"
+      Type: String
+      Value: xxxxxdatabase-ArticleInfo-KHWNZI0XRJNO
+    DependsOn: ArticleAlisTokenTableName
+  ArticleLikedUserTableName:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}ArticleLikedUserTableName"
+      Type: String
+      Value: xxxxxdatabase-ArticleLikedUser-6QMRNHUN9K57
+    DependsOn: ArticleAlisTokenTableName
+  ArticlePvUserTableName:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}ArticlePvUserTableName"
+      Type: String
+      Value: xxxxxdatabase-ArticlePvUser-1WGUK06VOC2P4
+    DependsOn: ArticleAlisTokenTableName
+  ArticleScoreTableName:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}ArticleScoreTableName"
+      Type: String
+      Value: xxxxxdatabase-ArticleScore-1Q25TAIQTN69I
+    DependsOn: ArticleAlisTokenTableName
+  ArticleTokenAggregationTableName:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}ArticleTokenAggregationTableName"
+      Type: String
+      Value: xxxxxdatabase-ArticleTokenAggregation-1WLX6P9WRP521
+    DependsOn: ArticleAlisTokenTableName
+  BetaUsersTableName:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}BetaUsersTableName"
+      Type: String
+      Value: xxxxxdatabase-BetaUsers-C26RYQA7R5LY
+  LikeTokenAggregationTableName:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}LikeTokenAggregationTableName"
+      Type: String
+      Value: xxxxxdatabase-LikeTokenAggregation-3M847I26V9JZ
+    DependsOn: BetaUsersTableName
+  UsersTableName:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}UsersTableName"
+      Type: String
+      Value: xxxxxdatabase-Users-DTNLRZDH2JV9
+    DependsOn: BetaUsersTableName
+
+  #
+  # Front end
+  # TODO: ALIS-953
+  #
+  DistS3BucketName:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}DistS3BucketName"
+      Description: |
+        アプリケーションのファイル(画像など)を配置するためのS3バケット名
+        サーバサイドアプリケーションでも使用する
+      Type: String
+      Value: !Sub "${AWS::StackName}DistS3BucketName"
