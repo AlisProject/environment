@@ -301,4 +301,10 @@ Resources:
         アプリケーションのファイル(画像など)を配置するためのS3バケット名
         サーバサイドアプリケーションでも使用する
       Type: String
-      Value: !Sub "${AWS::StackName}DistS3BucketName"
+      Value: !Sub "${AWS::StackName}-dist-s3-bucket"
+    DependsOn: AlisAppDomain
+
+  #
+  # batch
+  # FYI: batchリポジトリのSSMパラメータのみ、batchリポジトリ自身が保持しているのでそちらを参照
+  #
