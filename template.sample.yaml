@@ -20,6 +20,7 @@ Resources:
         踏み台サーバTのEIPのAllocation ID
       Type: String
       Value: eipalloc-74e9xxxx
+    # FYI: 本テンプレートに挿入されている DependsOn句はAWSのAPIの制限を回避するためのもの
     DependsOn: ParityNodesAMI
   NatAllocationId:
     Type: "AWS::SSM::Parameter"
@@ -29,7 +30,7 @@ Resources:
         NATのEIPのAllocation ID
       Type: String
       Value: eipalloc-0de8xxxx
-    DependsOn: ParityNodesAMI
+    DependsOn: BastionAllocationId
   EC2DeleteOnTermination:
     Type: "AWS::SSM::Parameter"
     Properties:
@@ -39,7 +40,7 @@ Resources:
         本番環境ではfalseであるべき。
       Type: String
       Value: "true"
-    DependsOn: ParityNodesAMI
+    DependsOn: NatAllocationId
   AccountsNewRequestPassword:
     Type: "AWS::SSM::Parameter"
     Properties:
@@ -49,7 +50,7 @@ Resources:
         式作成されるアカウントのパスワードとして設定される
       Type: String
       Value: password
-    DependsOn: ParityNodesAMI
+    DependsOn: EC2DeleteOnTermination
   ParityNodesInstanceType:
     Type: "AWS::SSM::Parameter"
     Properties:
@@ -58,7 +59,7 @@ Resources:
         Parity PoAのインスタンスのタイプ
       Type: String
       Value: t2.medium
-    DependsOn: ParityNodesAMI
+    DependsOn: AccountsNewRequestPassword
   ParityNodesVolumeSize:
     Type: "AWS::SSM::Parameter"
     Properties:
@@ -67,7 +68,7 @@ Resources:
         Parity PoAのインスタンスの容量(GB)
       Type: String
       Value: "8"
-    DependsOn: ParityNodesAMI
+    DependsOn: ParityNodesInstanceType
   PrivateChainMainSigner:
     Type: "AWS::SSM::Parameter"
     Properties:
@@ -76,7 +77,7 @@ Resources:
         プライベートチェーンへの操作を主に担当するSignerのアドレス
       Type: String
       Value: "0x7ad8f90cfa071c8420e3f09fe0e413d0c47502e6"
-    DependsOn: ParityNodesAMI
+    DependsOn: ParityNodesVolumeSize
   PrivateChainAlisTokenAddress:
     Type: "AWS::SSM::Parameter"
     Properties:
@@ -85,7 +86,7 @@ Resources:
         プライベートチェーンにデプロイされたALISトークンのアドレス
       Type: String
       Value: "0xbbfce3c05aef921b35c7264fff21bb08f490a821"
-    DependsOn: ParityNodesAMI
+    DependsOn: PrivateChainMainSigner
   PrivateChainOperationUrl:
     Type: "AWS::SSM::Parameter"
     Properties:
@@ -94,7 +95,7 @@ Resources:
         プライベートチェーン操作用URL
       Type: String
       Value: http://example:8545
-    DependsOn: ParityNodesAMI
+    DependsOn: PrivateChainAlisTokenAddress
   PrivateChainAwsAccessKey:
     Type: "AWS::SSM::Parameter"
     Properties:
@@ -108,7 +109,7 @@ Resources:
         このIAMユーザの作成自体はCloud formationで自動化されていないので注意。
       Type: String
       Value: AKIAIVGQILXXXXXXXXX
-    DependsOn: ParityNodesAMI
+    DependsOn: PrivateChainOperationUrl
   PrivateChainAwsSecretAccessKey:
     Type: "AWS::SSM::Parameter"
     Properties:
@@ -136,7 +137,7 @@ Resources:
         このIAMユーザの作成自体はCloud formationで自動化されていないので注意。
       Type: String
       Value: xxxxxxxxxx.execute-api.ap-northeast-1.amazonaws.com
-    DependsOn: PrivateChainAwsAccessKey
+    DependsOn: PrivateChainAwsSecretAccessKey
 
   #
   # Server less
@@ -167,7 +168,7 @@ Resources:
         記事IDを生成するためのsalt
       Type: String
       Value: "YOURSALTHERE"
-    DependsOn: AlisAppDomain
+    DependsOn: BetaModeFlag
 
   #
   # Cognito
@@ -211,81 +212,70 @@ Resources:
       Name: !Sub "${AWS::StackName}ArticleContentEditTableName"
       Type: String
       Value: xxxxxdatabase-ArticleContentEdit-VAL74ANFPZ3X
-    DependsOn: ArticleAlisTokenTableName
+    DependsOn: ArticleContentTableName
   ArticleEvaluatedManageTableName:
     Type: "AWS::SSM::Parameter"
     Properties:
       Name: !Sub "${AWS::StackName}ArticleEvaluatedManageTableName"
       Type: String
       Value: xxxxxdatabase-ArticleEvaluatedManage-FXS4PDYWVOL
-    DependsOn: ArticleAlisTokenTableName
+    DependsOn: ArticleContentEditTableName
   ArticleFraudUserTableName:
     Type: "AWS::SSM::Parameter"
     Properties:
       Name: !Sub "${AWS::StackName}ArticleFraudUserTableName"
       Type: String
       Value: xxxxxdatabase-ArticleFraudUser-14BEI5E0ZQ24W
-    DependsOn: ArticleAlisTokenTableName
+    DependsOn: ArticleEvaluatedManageTableName
   ArticleHistoryTableName:
     Type: "AWS::SSM::Parameter"
     Properties:
       Name: !Sub "${AWS::StackName}ArticleHistoryTableName"
       Type: String
       Value: xxxxxdatabase-ArticleHistory-W241YOWJS8G6
-    DependsOn: ArticleAlisTokenTableName
+    DependsOn: ArticleFraudUserTableName
   ArticleInfoTableName:
     Type: "AWS::SSM::Parameter"
     Properties:
       Name: !Sub "${AWS::StackName}ArticleInfoTableName"
       Type: String
       Value: xxxxxdatabase-ArticleInfo-KHWNZI0XRJNO
-    DependsOn: ArticleAlisTokenTableName
+    DependsOn: ArticleHistoryTableName
   ArticleLikedUserTableName:
     Type: "AWS::SSM::Parameter"
     Properties:
       Name: !Sub "${AWS::StackName}ArticleLikedUserTableName"
       Type: String
       Value: xxxxxdatabase-ArticleLikedUser-6QMRNHUN9K57
-    DependsOn: ArticleAlisTokenTableName
+    DependsOn: ArticleInfoTableName
   ArticlePvUserTableName:
     Type: "AWS::SSM::Parameter"
     Properties:
       Name: !Sub "${AWS::StackName}ArticlePvUserTableName"
       Type: String
       Value: xxxxxdatabase-ArticlePvUser-1WGUK06VOC2P4
-    DependsOn: ArticleAlisTokenTableName
+    DependsOn: ArticleLikedUserTableName
   ArticleScoreTableName:
     Type: "AWS::SSM::Parameter"
     Properties:
       Name: !Sub "${AWS::StackName}ArticleScoreTableName"
       Type: String
       Value: xxxxxdatabase-ArticleScore-1Q25TAIQTN69I
-    DependsOn: ArticleAlisTokenTableName
+    DependsOn: ArticlePvUserTableName
   ArticleTokenAggregationTableName:
     Type: "AWS::SSM::Parameter"
     Properties:
       Name: !Sub "${AWS::StackName}ArticleTokenAggregationTableName"
       Type: String
       Value: xxxxxdatabase-ArticleTokenAggregation-1WLX6P9WRP521
-    DependsOn: ArticleAlisTokenTableName
+    DependsOn: ArticleScoreTableName
   BetaUsersTableName:
     Type: "AWS::SSM::Parameter"
     Properties:
       Name: !Sub "${AWS::StackName}BetaUsersTableName"
       Type: String
       Value: xxxxxdatabase-BetaUsers-C26RYQA7R5LY
-  NotificationTableName:
-    Type: "AWS::SSM::Parameter"
-    Properties:
-      Name: !Sub "${AWS::StackName}NotificationTableName"
-      Type: String
-      Value: xxxxxdatabase-NotificationTableName-78178E48C73D
-  UnreadNotificationManagerTableName:
-    Type: "AWS::SSM::Parameter"
-    Properties:
-      Name: !Sub "${AWS::StackName}UnreadNotificationManagerTableName"
-      Type: String
-      Value: xxxxxdatabase-UnreadNotificationManagerTableName-60F35E5AAFD7
+    DependsOn: ArticleTokenAggregationTableName
   LikeTokenAggregationTableName:
     Type: "AWS::SSM::Parameter"
     Properties:
@@ -293,13 +283,27 @@ Resources:
       Type: String
       Value: xxxxxdatabase-LikeTokenAggregation-3M847I26V9JZ
     DependsOn: BetaUsersTableName
+  NotificationTableName:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}NotificationTableName"
+      Type: String
+      Value: xxxxxdatabase-NotificationTableName-78178E48C73D
+    DependsOn: LikeTokenAggregationTableName
+  UnreadNotificationManagerTableName:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}UnreadNotificationManagerTableName"
+      Type: String
+      Value: xxxxxdatabase-UnreadNotificationManagerTableName-60F35E5AAFD7
+    DependsOn: NotificationTableName
   UsersTableName:
     Type: "AWS::SSM::Parameter"
     Properties:
       Name: !Sub "${AWS::StackName}UsersTableName"
       Type: String
       Value: xxxxxdatabase-Users-DTNLRZDH2JV9
-    DependsOn: BetaUsersTableName
+    DependsOn: UnreadNotificationManagerTableName
 
   #
   # Front end
