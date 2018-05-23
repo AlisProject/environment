@@ -274,6 +274,18 @@ Resources:
       Name: !Sub "${AWS::StackName}BetaUsersTableName"
       Type: String
       Value: xxxxxdatabase-BetaUsers-C26RYQA7R5LY
+  NotificationTableName:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}NotificationTableName"
+      Type: String
+      Value: xxxxxdatabase-NotificationTableName-78178E48C73D
+  UnreadNotificationManagerTableName:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}UnreadNotificationManagerTableName"
+      Type: String
+      Value: xxxxxdatabase-UnreadNotificationManagerTableName-60F35E5AAFD7
   LikeTokenAggregationTableName:
     Type: "AWS::SSM::Parameter"
     Properties:
