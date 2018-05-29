@@ -5,4 +5,6 @@ SSM_PARAMS_PREFIX=${ALIS_APP_ID}ssm
 
 aws cloudformation deploy --template-file template.yaml \
   --capabilities CAPABILITY_IAM \
+  --parameter-overrides \
+    ParamAlisAppId=${ALIS_APP_ID} \
   --stack-name ${SSM_PARAMS_PREFIX}

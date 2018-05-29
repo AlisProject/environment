@@ -1,6 +1,23 @@
 AWSTemplateFormatVersion: 2010-09-09
 
+Parameters:
+  ParamAlisAppId:
+    Type: 'String'
+
 Resources:
+  #
+  # ALISアプリケーションID
+  # .envrcのALIS_APP_IDが反映される
+  #
+  AlisAppId:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}AlisAppId"
+      Description: |
+        サブシステム間を横断するユニークなID
+      Type: String
+      Value: !Ref ParamAlisAppId
+
   #
   # プライベートチェーン
   #
@@ -12,6 +29,7 @@ Resources:
         Parity PoAプライベートチェーンを構築するEC2インスタンスに使用するAMIのID
       Type: String
       Value: ami-b026xxxx
+    DependsOn: AlisAppId
   BastionAllocationId:
     Type: "AWS::SSM::Parameter"
     Properties:
