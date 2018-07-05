@@ -315,6 +315,24 @@ Resources:
       Type: String
       Value: xxxxxdatabase-UnreadNotificationManagerTableName-60F35E5AAFD7
     DependsOn: NotificationTableName
+  CommentTableName:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}CommentTableName"
+      Type: String
+      Value: xxxxxdatabase-Comment-NADVPF3KANFG
+  CommentLikedUserTableName:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}CommentLikedUserTableName"
+      Type: String
+      Value: xxxxxdatabase-CommentLikedUser-XBHIBDTZRMEA
+  DeletedCommentTableName:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}DeletedCommentTableName"
+      Type: String
+      Value: xxxxxdatabase-DeletedComment-RCME0XP7DU6M
   UsersTableName:
     Type: "AWS::SSM::Parameter"
     Properties:
