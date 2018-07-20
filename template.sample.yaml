@@ -342,6 +342,24 @@ Resources:
     DependsOn: UnreadNotificationManagerTableName
 
   #
+  # ElasticSearch
+  #
+  ElasticSearchEndpoint:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}ElasticSearchEndpoint"
+      Type: String
+      Value: search-hogeapi-xxxxxxxxxxxxxxxxxxxxxxxxxx.us-east-2.es.amazonaws.com
+  ElasticSearchAccessRole:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}ElasticSearchAccessRole"
+      Description: |
+        API側で作成したRoleのARNを指定する
+      Type: String
+      Value: arn:aws:iam::012345678901:role/hogeapi-LambdaRole-XXXXXXXXXXXXX
+
+  #
   # Front end
   # TODO: ALIS-953
   #
