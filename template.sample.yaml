@@ -350,10 +350,10 @@ Resources:
       Name: !Sub "${AWS::StackName}ElasticSearchEndpoint"
       Type: String
       Value: search-hogeapi-xxxxxxxxxxxxxxxxxxxxxxxxxx.us-east-2.es.amazonaws.com
-  ElasticSearchAccessRole:
+  ApiLambdaRole:
     Type: "AWS::SSM::Parameter"
     Properties:
-      Name: !Sub "${AWS::StackName}ElasticSearchAccessRole"
+      Name: !Sub "${AWS::StackName}ApiLambdaRole"
       Description: |
         API側で作成したRoleのARNを指定する
       Type: String
