@@ -340,6 +340,12 @@ Resources:
       Type: String
       Value: xxxxxdatabase-Users-DTNLRZDH2JV9
     DependsOn: UnreadNotificationManagerTableName
+  TopicTableName:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}TopicTableName"
+      Type: String
+      Value: xxxxxdatabase-Topic-DGRIT234F7D3
 
   #
   # ElasticSearch
