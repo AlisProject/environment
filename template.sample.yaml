@@ -346,6 +346,12 @@ Resources:
       Name: !Sub "${AWS::StackName}TopicTableName"
       Type: String
       Value: xxxxxdatabase-Topic-DGRIT234F7D3
+  TagTableName:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}TagTableName"
+      Type: String
+      Value: xxxxxdatabase-Tag-FJKL456RF65H
 
   #
   # ElasticSearch
