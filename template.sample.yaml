@@ -184,6 +184,15 @@ Resources:
       Type: String
       Value: "YOURSALTHERE"
     DependsOn: BetaModeFlag
+  LoginSalt:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}LoginSalt"
+      Description: |
+        SNSログイン時のSalt
+      Type: String
+      Value: 'xxxxxxxxxxxxxxxxxxxxxx'
+    DependsOn: SaltForArticleId
 
   #
   # Cognito
@@ -373,6 +382,45 @@ Resources:
         API側で作成したRoleのARNを指定する
       Type: String
       Value: arn:aws:iam::012345678901:role/hogeapi-LambdaRole-XXXXXXXXXXXXX
+
+  #
+  # LINE Oauth
+  #
+  LineChannelId:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}LineChannelId"
+      Description: |
+        LINEのdeveloperアカウントのChannelId
+      Type: String
+      Value: "xxxxxxxx"
+  LineChannelSecret:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}LineChannelSecret"
+      Description: |
+        LINEのdeveloperアカウントのLineChannelSecret
+      Type: String
+      Value: "xxxxxxxxxxxxxxxx"
+    DependsOn: LineChannelId
+  LineRedirectUri:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}LineRedirectUri"
+      Description: |
+        LINEログイン時のリダイレクトURL
+      Type: String
+      Value: 'https://xxxxxxxxxxxxx'
+    DependsOn: LineChannelSecret
+  LineLoginMark:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}LineLoginMark"
+      Description: |
+        LINEでのログイン判定パラメータ
+      Type: String
+      Value: 'xxxxxxxx'
+    DependsOn: LineRedirectUri
 
   #
   # Front end
