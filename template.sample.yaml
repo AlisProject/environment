@@ -213,6 +213,13 @@ Resources:
       Type: String
       Value: arn:aws:cognito-idp:ap-northeast-1:090123456789:userpool/ap-northeast-1_xxxxxxxxx
     DependsOn: CognitoUserPoolId
+  CognitoUserPoolAppId:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}CognitoUserPoolAppId"
+      Type: String
+      Value: xxxxxxxxxxxxxxxxxxxxxxxxxxx
+    DependsOn: CognitoUserPoolId
 
   #
   # DB Tables
@@ -364,6 +371,12 @@ Resources:
       Name: !Sub "${AWS::StackName}TipTableName"
       Type: String
       Value: xxxxxdatabase-Tip-TEST456RF65H
+  SnsUsersTableName:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}SnsUsersTableName"
+      Type: String
+      Value: xxxxxdatabase-SnsUsers-TEST456RF65H
 
   #
   # ElasticSearch
@@ -382,6 +395,34 @@ Resources:
         API側で作成したRoleのARNを指定する
       Type: String
       Value: arn:aws:iam::012345678901:role/hogeapi-LambdaRole-XXXXXXXXXXXXX
+
+  #
+  # Twitter Oauth
+  #
+  TwitterConsumerKey:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}TwitterConsumerKey"
+      Description: |
+        Twitterのコンシューマーキーを指定
+      Type: String
+      Value: xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+  TwitterConsumerSecret:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}TwitterConsumerSecret"
+      Description: |
+        Twitterのコンシューマーシークレットを指定
+      Type: String
+      Value: xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+  TwitterOauthCallbackUrl:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}TwitterOauthCallbackUrl"
+      Description: |
+        TwitterのコールバックURLを指定
+      Type: String
+      Value: xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
   #
   # LINE Oauth
@@ -412,15 +453,24 @@ Resources:
       Type: String
       Value: 'https://xxxxxxxxxxxxx'
     DependsOn: LineChannelSecret
-  LineLoginMark:
+  ThirdPartyLoginMark:
     Type: "AWS::SSM::Parameter"
     Properties:
-      Name: !Sub "${AWS::StackName}LineLoginMark"
+      Name: !Sub "${AWS::StackName}ThirdPartyLoginMark"
       Description: |
-        LINEでのログイン判定パラメータ
+        ThirdPartyINEでのログイン判定パラメータ
       Type: String
       Value: 'xxxxxxxx'
     DependsOn: LineRedirectUri
+  SnsLoginCommonTempPassword:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}SnsLoginCommonTempPassword"
+      Description: |
+        Twitter認証に使う共通の一時パスワードを指定。各環境で独自に生成してください
+      Type: String
+      Value: xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    DependsOn: ThirdPartyLoginMark
 
   #
   # Front end
