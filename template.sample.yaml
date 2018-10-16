@@ -184,6 +184,15 @@ Resources:
       Type: String
       Value: "YOURSALTHERE"
     DependsOn: BetaModeFlag
+  LoginSalt:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}LoginSalt"
+      Description: |
+        外部サービスログイン時のSalt
+      Type: String
+      Value: 'xxxxxxxxxxxxxxxxxxxxxx'
+    DependsOn: SaltForArticleId
 
   #
   # Cognito
@@ -203,6 +212,13 @@ Resources:
         一度、Cognitoを作成したあとでこの値をSSMへ設定する必要がある
       Type: String
       Value: arn:aws:cognito-idp:ap-northeast-1:090123456789:userpool/ap-northeast-1_xxxxxxxxx
+    DependsOn: CognitoUserPoolId
+  CognitoUserPoolAppId:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}CognitoUserPoolAppId"
+      Type: String
+      Value: xxxxxxxxxxxxxxxxxxxxxxxxxxx
     DependsOn: CognitoUserPoolId
 
   #
@@ -355,6 +371,12 @@ Resources:
       Name: !Sub "${AWS::StackName}TipTableName"
       Type: String
       Value: xxxxxdatabase-Tip-TEST456RF65H
+  ExternalProviderUsersTableName:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}ExternalProviderUsersTableName"
+      Type: String
+      Value: xxxxxdatabase-ExternalProviderUsers-TEST456RF65H
 
   #
   # ElasticSearch
@@ -373,6 +395,82 @@ Resources:
         API側で作成したRoleのARNを指定する
       Type: String
       Value: arn:aws:iam::012345678901:role/hogeapi-LambdaRole-XXXXXXXXXXXXX
+
+  #
+  # Twitter Oauth
+  #
+  TwitterConsumerKey:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}TwitterConsumerKey"
+      Description: |
+        Twitterのコンシューマーキーを指定
+      Type: String
+      Value: xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+  TwitterConsumerSecret:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}TwitterConsumerSecret"
+      Description: |
+        Twitterのコンシューマーシークレットを指定
+      Type: String
+      Value: xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+  TwitterOauthCallbackUrl:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}TwitterOauthCallbackUrl"
+      Description: |
+        TwitterのコールバックURLを指定
+      Type: String
+      Value: xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+  #
+  # LINE Oauth
+  #
+  LineChannelId:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}LineChannelId"
+      Description: |
+        LINEのdeveloperアカウントのChannelId
+      Type: String
+      Value: "xxxxxxxx"
+  LineChannelSecret:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}LineChannelSecret"
+      Description: |
+        LINEのdeveloperアカウントのLineChannelSecret
+      Type: String
+      Value: "xxxxxxxxxxxxxxxx"
+    DependsOn: LineChannelId
+  LineRedirectUri:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}LineRedirectUri"
+      Description: |
+        LINEログイン時のリダイレクトURL
+      Type: String
+      Value: 'https://xxxxxxxxxxxxx'
+    DependsOn: LineChannelSecret
+  ExternalProviderLoginMark:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}ExternalProviderLoginMark"
+      Description: |
+        外部サービスでのログイン判定パラメータ
+      Type: String
+      Value: 'xxxxxxxx'
+    DependsOn: LineRedirectUri
+  ExternalProviderLoginCommonTempPassword:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}ExternalProviderLoginCommonTempPassword"
+      Description: |
+        外部サービス認証に使う共通の一時パスワードを指定。各環境で独自に生成してください
+      Type: String
+      Value: xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    DependsOn: ExternalProviderLoginMark
 
   #
   # Front end
