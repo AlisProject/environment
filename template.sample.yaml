@@ -189,7 +189,7 @@ Resources:
     Properties:
       Name: !Sub "${AWS::StackName}LoginSalt"
       Description: |
-        SNSログイン時のSalt
+        外部サービスログイン時のSalt
       Type: String
       Value: 'xxxxxxxxxxxxxxxxxxxxxx'
     DependsOn: SaltForArticleId
@@ -371,12 +371,12 @@ Resources:
       Name: !Sub "${AWS::StackName}TipTableName"
       Type: String
       Value: xxxxxdatabase-Tip-TEST456RF65H
-  SnsUsersTableName:
+  ExternalProviderUsersTableName:
     Type: "AWS::SSM::Parameter"
     Properties:
-      Name: !Sub "${AWS::StackName}SnsUsersTableName"
+      Name: !Sub "${AWS::StackName}ExternalProviderUsersTableName"
       Type: String
-      Value: xxxxxdatabase-SnsUsers-TEST456RF65H
+      Value: xxxxxdatabase-ExternalProviderUsers-TEST456RF65H
 
   #
   # ElasticSearch
@@ -453,24 +453,24 @@ Resources:
       Type: String
       Value: 'https://xxxxxxxxxxxxx'
     DependsOn: LineChannelSecret
-  ThirdPartyLoginMark:
+  ExternalProviderLoginMark:
     Type: "AWS::SSM::Parameter"
     Properties:
-      Name: !Sub "${AWS::StackName}ThirdPartyLoginMark"
+      Name: !Sub "${AWS::StackName}ExternalProviderLoginMark"
       Description: |
-        ThirdPartyINEでのログイン判定パラメータ
+        外部サービスでのログイン判定パラメータ
       Type: String
       Value: 'xxxxxxxx'
     DependsOn: LineRedirectUri
-  SnsLoginCommonTempPassword:
+  ExternalProviderLoginCommonTempPassword:
     Type: "AWS::SSM::Parameter"
     Properties:
-      Name: !Sub "${AWS::StackName}SnsLoginCommonTempPassword"
+      Name: !Sub "${AWS::StackName}ExternalProviderLoginCommonTempPassword"
       Description: |
-        Twitter認証に使う共通の一時パスワードを指定。各環境で独自に生成してください
+        外部サービス認証に使う共通の一時パスワードを指定。各環境で独自に生成してください
       Type: String
       Value: xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-    DependsOn: ThirdPartyLoginMark
+    DependsOn: ExternalProviderLoginMark
 
   #
   # Front end
