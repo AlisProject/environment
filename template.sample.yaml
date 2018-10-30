@@ -401,6 +401,12 @@ Resources:
       Name: !Sub "${AWS::StackName}UserFirstExperienceTableName"
       Type: String
       Value: xxxxxdatabase-UserFirstExperience-1XZRHGK7SFVYY
+  NonceTableName:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}NonceTableName"
+      Type: String
+      Value: xxxxxdatabase-Nonce-TEST456RF65H
 
   #
   # ElasticSearch
@@ -495,6 +501,42 @@ Resources:
       Type: String
       Value: xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
     DependsOn: ExternalProviderLoginMark
+
+  #
+  # Yahoo Oauth
+  #
+  YahooClientId:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}YahooClientId"
+      Description: |
+        Yahoo API用のClientIdを指定
+      Type: String
+      Value: xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+  YahooSecret:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}YahooSecret"
+      Description: |
+        Yahoo API用のSecretを指定
+      Type: String
+      Value: xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+  YahooOauthCallbackUrl:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}YahooOauthCallbackUrl"
+      Description: |
+        Yahoo LoginのコールバックURLを指定
+      Type: String
+      Value: xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+  YahooExternalProviderLoginCommonTempPassword:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}YahooExternalProviderLoginCommonTempPassword"
+      Description: |
+        外部サービス認証に使う共通の一時パスワードを指定。各環境で独自に生成してください
+      Type: String
+      Value: xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
   #
   # Front end
