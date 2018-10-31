@@ -529,14 +529,6 @@ Resources:
         Yahoo LoginのコールバックURLを指定
       Type: String
       Value: xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-  YahooExternalProviderLoginCommonTempPassword:
-    Type: "AWS::SSM::Parameter"
-    Properties:
-      Name: !Sub "${AWS::StackName}YahooExternalProviderLoginCommonTempPassword"
-      Description: |
-        外部サービス認証に使う共通の一時パスワードを指定。各環境で独自に生成してください
-      Type: String
-      Value: xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
   #
   # Front end
