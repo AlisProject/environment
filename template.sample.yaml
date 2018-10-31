@@ -531,6 +531,34 @@ Resources:
       Value: xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
   #
+  # Facebook Oauth
+  #
+  FacebookAppId:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}FacebookAppId"
+      Description: |
+        Facebook API用のAppIdを指定
+      Type: String
+      Value: xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+  FacebookAppSecret:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}FacebookAppSecret"
+      Description: |
+        Facebook API用のAppSecretを指定
+      Type: String
+      Value: xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+  FacebookOauthCallbackUrl:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}FacebookOauthCallbackUrl"
+      Description: |
+        Facebook LoginのコールバックURLを指定
+      Type: String
+      Value: xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+  #
   # Front end
   # TODO: ALIS-953
   #
