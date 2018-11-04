@@ -377,6 +377,13 @@ Resources:
       Name: !Sub "${AWS::StackName}ExternalProviderUsersTableName"
       Type: String
       Value: xxxxxdatabase-ExternalProviderUsers-TEST456RF65H
+  UserFraudTableName:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}UserFraudTableName"
+      Type: String
+      Value: xxxxxdatabase-UserFraud-TEST456RF65H
+    DependsOn: ExternalProviderUsersTableName
 
   #
   # ElasticSearch
