@@ -557,6 +557,14 @@ Resources:
         Facebook LoginのコールバックURLを指定
       Type: String
       Value: xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+  FacebookAppToken:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}FacebookAppToken"
+      Description: |
+        https://developers.facebook.com/tools/accesstoken/　から取得するApp Tokenを指定
+      Type: String
+      Value: xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
   #
   # Front end
