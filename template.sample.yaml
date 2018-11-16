@@ -383,7 +383,6 @@ Resources:
       Name: !Sub "${AWS::StackName}UserFraudTableName"
       Type: String
       Value: xxxxxdatabase-UserFraud-TEST456RF65H
-    DependsOn: ExternalProviderUsersTableName
 
   #
   # ElasticSearch
