@@ -383,6 +383,12 @@ Resources:
       Name: !Sub "${AWS::StackName}UserFraudTableName"
       Type: String
       Value: xxxxxdatabase-UserFraud-TEST456RF65H
+  ScreenedArticleTableName:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}ScreenedArticleTableName"
+      Type: String
+      Value: xxxxxdatabase-ScreenedArticle-11T1JVN14FGS7
 
   #
   # ElasticSearch
