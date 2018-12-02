@@ -389,6 +389,12 @@ Resources:
       Name: !Sub "${AWS::StackName}ScreenedArticleTableName"
       Type: String
       Value: xxxxxdatabase-ScreenedArticle-11T1JVN14FGS7
+  TokenDistributionTableName:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}TokenDistributionTableName"
+      Type: String
+      Value: xxxxxdatabase-TokenDistribution-11T1JVN14FGS7
 
   #
   # ElasticSearch
