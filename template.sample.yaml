@@ -392,7 +392,7 @@ Resources:
   TokenDistributionTableName:
     Type: "AWS::SSM::Parameter"
     Properties:
-      Name: !Sub "${AWS::StackName}TokenDistribution"
+      Name: !Sub "${AWS::StackName}TokenDistributionTableName"
       Type: String
       Value: xxxxxdatabase-TokenDistribution-11T1JVN14FGS7
 
