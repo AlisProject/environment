@@ -496,6 +496,24 @@ Resources:
       Value: xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
     DependsOn: ExternalProviderLoginMark
 
+  # Authlete
+  AuthleteApiKey:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}LineChannelId"
+      Description: |
+        AuthleteのAPIキー
+      Type: String
+      Value: "xxxxxxxx"
+  AuthleteApiSecret:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}AuthleteApiSecret"
+      Description: |
+        AuthleteのAPIシークレット
+      Type: String
+      Value: "xxxxxxxxxxxxxxxx"
+
   #
   # Front end
   # TODO: ALIS-953
