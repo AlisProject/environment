@@ -588,13 +588,13 @@ Resources:
 
   #
   # Rest API
-  # AWS API GatewayのArnのPrefix
+  # AWS API GatewayのArn
   #
-  RestApi:
+  RestApiArn:
     Type: "AWS::SSM::Parameter"
     Properties:
-      Name: !Sub "${AWS::StackName}RestApi"
+      Name: !Sub "${AWS::StackName}RestApiArn"
       Description: |
-        API GatewayのIDのPrefix
+        API GatewayのArn
       Type: String
       Value: !Sub arn:aws:execute-api:${AWS::Region}:xxxxxxxxxxxxxxxx
