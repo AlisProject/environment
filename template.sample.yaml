@@ -585,3 +585,16 @@ Resources:
   # batch
   # FYI: batchリポジトリのSSMパラメータのみ、batchリポジトリ自身が保持しているのでそちらを参照
   #
+
+  #
+  # Rest API
+  # AWS API GatewayのArnのPrefix
+  #
+  RestApi:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}RestApi"
+      Description: |
+        API GatewayのIDのPrefix
+      Type: String
+      Value: !Sub arn:aws:execute-api:${AWS::Region}:xxxxxxxxxxxxxxxx
