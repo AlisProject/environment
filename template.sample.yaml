@@ -401,6 +401,12 @@ Resources:
       Name: !Sub "${AWS::StackName}UserFirstExperienceTableName"
       Type: String
       Value: xxxxxdatabase-UserFirstExperience-1XZRHGK7SFVYY
+  NonceTableName:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}NonceTableName"
+      Type: String
+      Value: xxxxxdatabase-Nonce-TEST456RF65H
 
   #
   # ElasticSearch
@@ -497,6 +503,70 @@ Resources:
     DependsOn: ExternalProviderLoginMark
 
   #
+  # Yahoo Oauth
+  #
+  YahooClientId:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}YahooClientId"
+      Description: |
+        Yahoo API用のClientIdを指定
+      Type: String
+      Value: xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+  YahooSecret:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}YahooSecret"
+      Description: |
+        Yahoo API用のSecretを指定
+      Type: String
+      Value: xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+  YahooOauthCallbackUrl:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}YahooOauthCallbackUrl"
+      Description: |
+        Yahoo LoginのコールバックURLを指定
+      Type: String
+      Value: xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+  #
+  # Facebook Oauth
+  #
+  FacebookAppId:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}FacebookAppId"
+      Description: |
+        Facebook API用のAppIdを指定
+      Type: String
+      Value: xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+  FacebookAppSecret:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}FacebookAppSecret"
+      Description: |
+        Facebook API用のAppSecretを指定
+      Type: String
+      Value: xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+  FacebookOauthCallbackUrl:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}FacebookOauthCallbackUrl"
+      Description: |
+        Facebook LoginのコールバックURLを指定
+      Type: String
+      Value: xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+  FacebookAppToken:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}FacebookAppToken"
+      Description: |
+        https://developers.facebook.com/tools/accesstoken/　から取得するApp Tokenを指定
+      Type: String
+      Value: xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+  #
   # Front end
   # TODO: ALIS-953
   #
@@ -515,3 +585,16 @@ Resources:
   # batch
   # FYI: batchリポジトリのSSMパラメータのみ、batchリポジトリ自身が保持しているのでそちらを参照
   #
+
+  #
+  # Rest API
+  # AWS API GatewayのArn
+  #
+  RestApiArn:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}RestApiArn"
+      Description: |
+        API GatewayのArn
+      Type: String
+      Value: !Sub arn:aws:execute-api:${AWS::Region}:xxxxxxxxxxxxxxxx
