@@ -407,6 +407,12 @@ Resources:
       Name: !Sub "${AWS::StackName}NonceTableName"
       Type: String
       Value: xxxxxdatabase-Nonce-TEST456RF65H
+  PaidArticlesTableName:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}PaidArticlesTableName"
+      Type: String
+      Value: xxxxxdatabase-PaidArticles-TEST456RF65H
 
   #
   # ElasticSearch
