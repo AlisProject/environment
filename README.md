@@ -28,6 +28,14 @@ Deployment.
 ./deploy.sh
 ```
 
+## For DynamoDB Names
+You can use a script to replace table names for `template.yaml`.
+
+```bash
+./replace-environment.sh
+```
+
+
 # Linting
 
 ## Prerequisite

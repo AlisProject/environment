@@ -257,6 +257,9 @@ Resources:
     Type: "AWS::SSM::Parameter"
     Properties:
       Name: !Sub "${AWS::StackName}CognitoUserPoolAppId"
+      Description: |
+        CognitoのアプリクライアントのアプリクライアントID
+        外部SNS認証に使用している
       Type: String
       Value: xxxxxxxxxxxxxxxxxxxxxxxxxxx
     DependsOn: CognitoUserPoolId
