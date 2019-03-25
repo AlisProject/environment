@@ -538,6 +538,7 @@ Resources:
       Name: !Sub "${AWS::StackName}ExternalProviderLoginMark"
       Description: |
         外部サービスでのログイン判定パラメータ
+        開発環境では規定のままでOK
       Type: String
       Value: 'xxxxxxxx'
     DependsOn: LineRedirectUri
@@ -644,6 +645,6 @@ Resources:
     Properties:
       Name: !Sub "${AWS::StackName}RestApiArn"
       Description: |
-        API GatewayのArn
+        serverlsss-applicationsの${ALIS_APP_ID}apiスタックで生成されたAPI GatewayリソースのARN
       Type: String
-      Value: !Sub arn:aws:execute-api:${AWS::Region}:xxxxxxxxxxxxxxxx
+      Value: !Sub arn:aws:execute-api:${AWS::Region}:REPLACE_TO_END_OF_REST_API_ARN
