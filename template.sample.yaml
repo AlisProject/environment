@@ -19,6 +19,37 @@ Resources:
       Value: !Ref ParamAlisAppId
 
   #
+  # パブリックチェーン
+  #
+  PublicChainAlisTokenAddress:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}PublicChainAlisTokenAddress"
+      Description: |
+        パブリックチェーンにデプロイされたALISトークンのアドレス
+      Type: String
+      Value: "0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    DependsOn: AlisAppId
+  PublicChainBridgeAddress:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}PublicChainBridgeAddress"
+      Description: |
+        パブリックチェーンにデプロイされたブリッジコントラクトのアドレス
+      Type: String
+      Value: "0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    DependsOn: PublicChainAlisTokenAddress
+  PublicChainOperationUrl:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}PublicChainOperationUrl"
+      Description: |
+        パブリックチェーン操作用URL
+      Type: String
+      Value: https://ropsten.infura.io/v3/xxxxx
+    DependsOn: PublicChainBridgeAddress
+
+  #
   # プライベートチェーン
   #
   ParityNodesAMI:
@@ -105,6 +136,15 @@ Resources:
       Type: String
       Value: "0xbbfce3c05aef921b35c7264fff21bb08f490a821"
     DependsOn: PrivateChainMainSigner
+  PrivateChainBridgeAddress:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}PrivateChainBridgeAddress"
+      Description: |
+        プライベートチェーンにデプロイされたブリッジコントラクトのアドレス
+      Type: String
+      Value: "0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    DependsOn: PrivateChainAlisTokenAddress
   PrivateChainOperationUrl:
     Type: "AWS::SSM::Parameter"
     Properties:
@@ -113,7 +153,7 @@ Resources:
         プライベートチェーン操作用URL
       Type: String
       Value: http://example:8545
-    DependsOn: PrivateChainAlisTokenAddress
+    DependsOn: PrivateChainBridgeAddress
   PrivateChainAwsAccessKey:
     Type: "AWS::SSM::Parameter"
     Properties:
