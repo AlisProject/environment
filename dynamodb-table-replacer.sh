@@ -4,6 +4,7 @@ set -eu
 # DynamoDB
 aws dynamodb list-tables |grep ${ALIS_APP_ID}database |sort |tr -d ' ",' | node ./scripts/dynamodb-table-replacer.js
 
+# TODO:
 # Cognito
 #aws cognito-identity list-identity-pools --max-results 5 | \
 #  jq --arg USER_POOL_NAME \

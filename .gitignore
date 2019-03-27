@@ -4,3 +4,4 @@ node_modules
 !.envrc.sample
 *template.yaml
 tmp.*
+*-e
