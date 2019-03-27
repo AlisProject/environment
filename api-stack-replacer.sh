@@ -12,7 +12,7 @@ sed -i -e "s/REPLACE_TO_END_OF_REST_API_ARN/${END_OF_REST_API_ARN}/g" template.y
 
 
 # Rest API
-LAMBDA_ROLE_ARN=`aws iam list-roles | grep ${ALIS_APP_ID}api-LambdaRole | grep Arn | tr -d ' ",'`
+LAMBDA_ROLE_ARN=`aws iam list-roles | grep ${ALIS_APP_ID}api-LambdaRole | grep Arn | awk '{print $2}' | tr -d ' ",'`
 
 sed -i -e "s?arn:aws:iam::012345678901:role/hogeapi-LambdaRole-XXXXXXXXXXXXX?${LAMBDA_ROLE_ARN}?g" template.yaml
 
