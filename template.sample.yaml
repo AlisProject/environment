@@ -362,14 +362,14 @@ Resources:
     Properties:
       Name: !Sub "${AWS::StackName}NotificationTableName"
       Type: String
-      Value: xxxxxdatabase-NotificationTableName-78178E48C73D
+      Value: xxxxxdatabase-Notification-78178E48C73D
     DependsOn: LikeTokenAggregationTableName
   UnreadNotificationManagerTableName:
     Type: "AWS::SSM::Parameter"
     Properties:
       Name: !Sub "${AWS::StackName}UnreadNotificationManagerTableName"
       Type: String
-      Value: xxxxxdatabase-UnreadNotificationManagerTableName-60F35E5AAFD7
+      Value: xxxxxdatabase-UnreadNotificationManager-60F35E5AAFD7
     DependsOn: NotificationTableName
   CommentTableName:
     Type: "AWS::SSM::Parameter"
