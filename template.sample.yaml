@@ -456,6 +456,12 @@ Resources:
       Name: !Sub "${AWS::StackName}PaidArticlesTableName"
       Type: String
       Value: xxxxxdatabase-PaidArticles-TEST456RF65H
+  PaidStatusTableName:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}PaidStatusTableName"
+      Type: String
+      Value: xxxxxdatabase-PaidStatus-TEST456RF65H
 
   #
   # ElasticSearch
