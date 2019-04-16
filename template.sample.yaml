@@ -462,6 +462,12 @@ Resources:
       Name: !Sub "${AWS::StackName}PaidStatusTableName"
       Type: String
       Value: xxxxxdatabase-PaidStatus-TEST456RF65H
+  TokenSendTableName:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}TokenSendTableName"
+      Type: String
+      Value: xxxxxdatabase-TokenSend-TESTXXXXXXXX
 
   #
   # ElasticSearch
