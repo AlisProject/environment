@@ -500,7 +500,7 @@ Resources:
   AuthleteApiKey:
     Type: "AWS::SSM::Parameter"
     Properties:
-      Name: !Sub "${AWS::StackName}LineChannelId"
+      Name: !Sub "${AWS::StackName}AuthleteApiKey"
       Description: |
         AuthleteのAPIキー
       Type: String
