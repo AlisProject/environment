@@ -660,3 +660,16 @@ Resources:
         serverlsss-applicationsの${ALIS_APP_ID}apiスタックで生成されたAPI GatewayリソースのARN
       Type: String
       Value: !Sub arn:aws:execute-api:${AWS::Region}:REPLACE_TO_END_OF_REST_API_ARN
+
+  #
+  # wallet
+  #
+  DailyLimitTokenSendValue:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}DailyLimitTokenSendValue"
+      Description: |
+        日次の出金額上限値
+      Type: String
+      Value: 10000000000000000000000
+
