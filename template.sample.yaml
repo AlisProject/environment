@@ -193,15 +193,6 @@ Resources:
       Type: String
       Value: xxxxxxxxxx.execute-api.ap-northeast-1.amazonaws.com
     DependsOn: PrivateChainAwsSecretAccessKey
-  PrivateChainBridgeAddress:
-    Type: "AWS::SSM::Parameter"
-    Properties:
-      Name: !Sub "${AWS::StackName}PrivateChainBridgeAddress"
-      Description: |
-        Bridge コントラクトのアドレス
-      Type: String
-      Value: "0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-    DependsOn: PrivateChainAwsSecretAccessKey
 
   #
   # Server less
