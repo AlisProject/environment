@@ -32,7 +32,13 @@ Deployment.
 You can use a script to replace table names for `template.yaml`.
 
 ```bash
-./replace-environment.sh
+./dynamodb-table-replacer.sh
+```
+
+## For APIs
+
+```bash
+./api-stack-replacer.sh
 ```
 
 
