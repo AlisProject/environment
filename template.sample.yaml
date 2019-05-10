@@ -564,24 +564,6 @@ Resources:
       Value: xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
     DependsOn: ExternalProviderLoginMark
 
-  # Authlete
-  AuthleteApiKey:
-    Type: "AWS::SSM::Parameter"
-    Properties:
-      Name: !Sub "${AWS::StackName}AuthleteApiKey"
-      Description: |
-        AuthleteのAPIキー
-      Type: String
-      Value: "xxxxxxxx"
-  AuthleteApiSecret:
-    Type: "AWS::SSM::Parameter"
-    Properties:
-      Name: !Sub "${AWS::StackName}AuthleteApiSecret"
-      Description: |
-        AuthleteのAPIシークレット
-      Type: String
-      Value: "xxxxxxxxxxxxxxxx"
-
   #
   # Yahoo Oauth
   #
@@ -645,6 +627,26 @@ Resources:
         https://developers.facebook.com/tools/accesstoken/　から取得するApp Tokenを指定
       Type: String
       Value: xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+  #
+  # Authlete
+  #
+  AuthleteApiKey:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}AuthleteApiKey"
+      Description: |
+        AuthleteのAPIキー
+      Type: String
+      Value: xxxxxxxx
+  AuthleteApiSecret:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}AuthleteApiSecret"
+      Description: |
+        AuthleteのAPIシークレット
+      Type: String
+      Value: xxxxxxxxxxxxxxxx
 
   #
   # Front end
