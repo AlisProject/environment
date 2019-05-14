@@ -233,6 +233,24 @@ Resources:
       Type: String
       Value: 'xxxxxxxxxxxxxxxxxxxxxx'
     DependsOn: SaltForArticleId
+  RequestParamEncryptionPublicKey:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}RequestParamEncryptionPublicKey"
+      Description: |
+        APIリクエストパラメータを暗号化するための公開鍵
+      Type: String
+      Value: "xxxxxxxxxxxxxxxxxxxxxx"
+    DependsOn: LoginSalt
+  RequestParamDecryptionPrivateKey:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}RequestParamDecryptionPrivateKey"
+      Description: |
+        暗号化されたAPIリクエストパラメータを復号化するための秘密鍵
+      Type: String
+      Value: "xxxxxxxxxxxxxxxxxxxxxx"
+    DependsOn: RequestParamEncryptionPublicKey
 
   #
   # Cognito
@@ -672,4 +690,3 @@ Resources:
         日次の出金額上限値
       Type: String
       Value: 10000000000000000000000
-
