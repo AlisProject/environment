@@ -287,6 +287,13 @@ Resources:
       Type: String
       Value: xxxxxdatabase-ArticleContentEdit-VAL74ANFPZ3X
     DependsOn: ArticleContentTableName
+  ArticleContentEditHistoryTableName:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}ArticleContentEditHistoryTableName"
+      Type: String
+      Value: xxxxxdatabase-ArticleContentEditHistory-XXXXXXXX
+    DependsOn: ArticleContentTableName
   ArticleEvaluatedManageTableName:
     Type: "AWS::SSM::Parameter"
     Properties:
