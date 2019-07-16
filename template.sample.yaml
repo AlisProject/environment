@@ -48,6 +48,15 @@ Resources:
       Type: String
       Value: https://ropsten.infura.io/v3/xxxxx
     DependsOn: PublicChainBridgeAddress
+  PublicChainRegistryAddress:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}PublicChainRegistryAddress"
+      Description: |
+        パブリックチェーンにデプロイされたレジストリコントラクトのアドレス
+      Type: String
+      Value: "0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    DependsOn: PublicChainOperationUrl
 
   #
   # プライベートチェーン
