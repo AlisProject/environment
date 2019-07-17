@@ -672,7 +672,6 @@ Resources:
 
   #
   # Front end
-  # TODO: ALIS-953
   #
   DistS3BucketName:
     Type: "AWS::SSM::Parameter"
@@ -684,6 +683,16 @@ Resources:
       Type: String
       Value: !Sub "${AWS::StackName}-dist-s3-bucket"
     DependsOn: AlisAppDomain
+  IframelyApiKey:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}IframelyApiKey"
+      Description: |
+        IframelyのAPIキー
+        フロントエンドでIframelyを使用するのに必要
+      Type: String
+      Value: "IFRAME-KEY-VALUE-HERE"
+    DependsOn: DistS3BucketName
 
   #
   # batch
