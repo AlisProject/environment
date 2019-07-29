@@ -412,6 +412,13 @@ Resources:
       Type: String
       Value: xxxxxdatabase-Users-DTNLRZDH2JV9
     DependsOn: UnreadNotificationManagerTableName
+  UserConfigurationsTableName:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}UserConfigurationsTableName"
+      Type: String
+      Value: xxxxxdatabase-Users-DTNLRZDH2JV9
+    DependsOn: UsersTableName
   TopicTableName:
     Type: "AWS::SSM::Parameter"
     Properties:
