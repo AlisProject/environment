@@ -499,6 +499,17 @@ Resources:
       Value: xxxxxdatabase-TokenSend-TESTXXXXXXXX
 
   #
+  # DB Streams
+  #
+  ArticleFraudUserStreamArn:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}ArticleFraudUserStreamArn"
+      Type: String
+      Value: article_fraud_user_stream_arn
+    DependsOn: TokenSendTableName
+
+  #
   # ElasticSearch
   #
   ElasticSearchEndpoint:
