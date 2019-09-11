@@ -724,7 +724,7 @@ Resources:
       Description: |
         トークン履歴のcsvを格納するバケット
       Type: String
-      Value: !Sub "${AWS::StackName}-token-history-csv-bucket"
+      Value: !Sub "xxxxx-token-history-csv-bucket"
 
   #
   # batch
