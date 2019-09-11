@@ -272,6 +272,12 @@ Resources:
       Type: String
       Value: xxxxxxxxxxxxxxxxxxxxxxxxxxx
     DependsOn: CognitoUserPoolId
+  CognitoIdentityPoolId:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}CognitoIdentityPoolId"
+      Type: String
+      Value: "CognitoIdentityPoolId HERE"
 
   #
   # DB Tables
@@ -711,6 +717,14 @@ Resources:
       Type: String
       Value: "IFRAME-KEY-VALUE-HERE"
     DependsOn: DistS3BucketName
+  AllTokenHistoryCsvDownloadS3Bucket:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}AllTokenHistoryCsvDownloadS3Bucket"
+      Description: |
+        トークン履歴のcsvを格納するバケット
+      Type: String
+      Value: !Sub "${AWS::StackName}-token-history-csv-bucket"
 
   #
   # batch
@@ -741,3 +755,27 @@ Resources:
         日次の出金額上限値
       Type: String
       Value: 10000000000000000000000
+
+  #
+  # Sentry
+  #
+  SentryDSN:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}SentryDSN"
+      Description: |
+        SetnryのDSN
+      Type: String
+      Value: "Sentry URL HERE"  
+
+  #
+  # LiscenseToken
+  #
+  PublicChainLicenseTokenAddress:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub "${AWS::StackName}PublicChainLicenseTokenAddress"
+      Description: |
+        LicenseTokenのアドレス
+      Type: String
+      Value: "CONTRACT ADDRESS HERE"
